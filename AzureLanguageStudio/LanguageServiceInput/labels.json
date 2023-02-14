@@ -1,0 +1,98 @@
+{
+    
+    "projectFileVersion": "2023-02-10",
+    "stringIndexType": "Utf16CodeUnit",
+    "metadata": {
+      "projectKind": "CustomSingleLabelClassification",
+      "storageInputContainerName": "openai-textclass-jh-container",
+      "settings": {},
+      "projectName": "openai-textclass-test",
+      "multilingual": false,
+      "description": "",
+      "language": "de"
+    },
+    "assets": {
+      "projectKind": "CustomSingleLabelClassification",
+      "classes": [
+          {
+              "category": "Sommer"
+          },
+          {
+              "category": "Winter"
+          }
+      ],
+      "documents": [
+          {
+              "location": "sommer1.txt",
+              "language": "de",
+              "class": {
+                  "category": "Sommer"
+              }
+          },
+          {
+              "location": "winter1.txt",
+              "language": "de",
+              "class": {
+                  "category": "Winter"
+              }
+          },
+            {
+                "location": "sommer2.txt",
+                "language": "de",
+                "class": {
+                    "category": "Sommer"
+                }
+            },
+            {
+                "location": "winter2.txt",
+                "language": "de",
+                "class": {
+                    "category": "Winter"
+                }
+            },
+            {
+                "location": "sommer3.txt",
+                "language": "de",
+                "class": {
+                    "category": "Sommer"
+                }
+            },
+            {
+                "location": "winter3.txt",
+                "language": "de",
+                "class": {
+                    "category": "Winter"
+                }
+            },
+            {
+                "location": "sommer4.txt",
+                "language": "de",
+                "class": {
+                    "category": "Sommer"
+                }
+            },
+            {
+                "location": "winter4.txt",
+                "language": "de",
+                "class": {
+                    "category": "Winter"
+                }
+            },
+            {
+                "location": "sommer5.txt",
+                "language": "de",
+                "class": {
+                    "category": "Sommer"
+                }
+            },
+            {
+                "location": "winter5.txt",
+                "language": "de",
+                "class": {
+                    "category": "Winter"
+                }
+            }
+           
+      ]
+  }
+}
