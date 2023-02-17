@@ -5,7 +5,7 @@ WORKDIR /flask-app
 
 COPY pip-reqs.txt .
 
-RUN pip install -r pip-reqs.txt
+RUN pip install -r requirements.txt
 
 COPY ./FlaskDemo ./app
 

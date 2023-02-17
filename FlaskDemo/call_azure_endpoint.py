@@ -1,14 +1,18 @@
+import os
+from dotenv import load_dotenv
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.textanalytics import TextAnalyticsClient, RecognizeCustomEntitiesAction
 from azure.ai.language.questionanswering import QuestionAnsweringClient
 from azure.ai.language.questionanswering import models as qna
 
+load_dotenv()
+
 def ls_prediction(input_text) -> tuple:
 
-    endpoint = "https://openai-classification-jh-ls.cognitiveservices.azure.com/"
-    key = "ae7af333850f4b91b73aecbccb926d0b"
-    project_name = "openai-textclass-test"
-    deployment_name = "test-deployment"
+    endpoint = os.environ["AZURE_LANGUAGE_ENDPOINT"]
+    key = os.environ["AZURE_LANGUAGE_KEY"]
+    project_name = os.environ["CUSTOM_CLASSIFICATION_PROJECT_NAME"]
+    deployment_name = os.environ["CUSTOM_CLASSIFICATION_DEPLOYMENT_NAME"]
 
     classification_client = TextAnalyticsClient(
         endpoint=endpoint,
@@ -34,14 +38,19 @@ def ls_prediction(input_text) -> tuple:
             # print("Document text '{}' has an error with code '{}' and message '{}'".format(
             #     doc, classification_result.error.code, classification_result.error.message
             # ))
-            return 'classification error', 0
+            return 'classification error', 424
 
 def ls_entity_recognition(input_text: str) -> dict:
 
-    endpoint = "https://openai-classification-jh-ls.cognitiveservices.azure.com/"
-    key = "ae7af333850f4b91b73aecbccb926d0b"
-    project_name = "openai-named-entity-jh"
-    deployment_name = "entity-recog-test"
+    # endpoint = "https://openai-classification-jh-ls.cognitiveservices.azure.com/"
+    # key = "ae7af333850f4b91b73aecbccb926d0b"
+    # project_name = "openai-named-entity-jh"
+    # deployment_name = "entity-recog-test"
+
+    endpoint = os.environ["AZURE_LANGUAGE_ENDPOINT"]
+    key = os.environ["AZURE_LANGUAGE_KEY"]
+    project_name = os.environ["CUSTOM_ENTITIES_PROJECT_NAME"]
+    deployment_name = os.environ["CUSTOM_ENTITIES_DEPLOYMENT_NAME"]
 
     entity_recognition_client = TextAnalyticsClient(
         endpoint=endpoint,
@@ -75,10 +84,15 @@ def ls_entity_recognition(input_text: str) -> dict:
 
 def ls_question_answering(input_text: str) -> tuple:
     
-    endpoint = "https://openai-classification-jh-ls.cognitiveservices.azure.com/"
-    key = "ae7af333850f4b91b73aecbccb926d0b"
-    project_name = "openai-custom-questions"
-    deployment_name = "production"
+    # endpoint = "https://openai-classification-jh-ls.cognitiveservices.azure.com/"
+    # key = "ae7af333850f4b91b73aecbccb926d0b"
+    # project_name = "openai-custom-questions"
+    # deployment_name = "production"
+
+    endpoint = os.environ["AZURE_LANGUAGE_ENDPOINT"]
+    key = os.environ["AZURE_LANGUAGE_KEY"]
+    project_name = os.environ["CUSTOM_QUESTIONS_PROJECT_NAME"]
+    deployment_name = os.environ["CUSTOM_QUESTIONS_DEPLOYMENT_NAME"]
     
     client = QuestionAnsweringClient(
         endpoint=endpoint,  
