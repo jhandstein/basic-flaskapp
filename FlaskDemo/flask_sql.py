@@ -1,29 +1,45 @@
-from datetime import datetime
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, request, jsonify
+from src.call_azure_endpoint import ls_prediction, ls_entity_recognition, ls_question_answering
+from src.database import db, OpenAIRequest, store_request
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///openai-db.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+def create_app():
+    app = Flask(__name__)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///openai-db.db'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    db.init_app(app)
 
-db = SQLAlchemy(app)
+    return app
 
-# class LabelledText(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     text = db.Column(db.String(200), nullable=False)
-#     category = db.Column(db.String(20), nullable=False)
+app = create_app()
 
-#     def __repr__(self):
-#         return f'Text {self.id} - {self.category}'
+@app.route('/')
+def index():
+    return 'Hello fellow SQL enthusiasts!'
 
-# class OpenAIRequest(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     type = db.Column(db.String(20), nullable=False)
-#     text = db.Column(db.String(200), nullable=False)
-#     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+@app.route('/db/textclass', methods=['POST'])
+def text_classification():
+    text_input = request.get_json()
+    category, confidence = ls_prediction(text_input['text'])
+    output = {'classification': f'Your input was classified as: *{category}* with confidence score: *{confidence}*'}
+    store_request(type_='text_classification', text=text_input['text'], category=category)
+    return jsonify(output), 200
 
-#     def __repr__(self):
-#         return f'Request {self.id}'
+@app.route('/db/entityrecog/', methods=['POST'])
+def entity_recognition():
+    text_input = request.get_json()
+    entities = ls_entity_recognition(text_input['text'])
+    output = {'entities': entities}
+    store_request(type_='entity_recognition', text=text_input['text'], entities=entities.__repr__())
+    return jsonify(output), 200
+
+@app.route('/db/questionanswering/', methods=['POST'])
+def question_answering():
+    text_input = request.get_json()
+    answer = ls_question_answering(text_input['text'])
+    output = {'answer': answer}
+    store_request(type_='question_answering', text=text_input['text'], answer=answer)
+    return jsonify(output), 200
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)

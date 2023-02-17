@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from call_azure_endpoint import ls_prediction, ls_entity_recognition, ls_question_answering
+from src.call_azure_endpoint import ls_prediction, ls_entity_recognition, ls_question_answering
 
 app = Flask(__name__)
 
@@ -8,7 +8,7 @@ def index():
     return 'Hello fellow ChatGPT enthusiasts!'
 
 @app.route('/textclass', methods=['POST'])
-def manual_text_input():
+def text_classification():
     text_input = request.get_json()
     category, confidence = ls_prediction(text_input['text'])
     output = {'classification': f'Your input was classified as: *{category}* with confidence score: *{confidence}*'}
