@@ -3,7 +3,7 @@ FROM python:3.10
 
 WORKDIR /flask-app
 
-COPY pip-reqs.txt .
+COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
