@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from src.call_azure_endpoint import ls_prediction, ls_entity_recognition, ls_question_answering
-from src.database import db, OpenAIRequest, store_request
+from src.database import db, store_request
 
 def create_app():
     app = Flask(__name__)
