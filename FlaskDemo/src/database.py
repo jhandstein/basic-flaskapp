@@ -17,7 +17,10 @@ class OpenAIRequest(db.Model):
         return f'Request {self.id}'
 
 def store_request(type_: str, text: str, category: str=None, entities: str=None, answer: str=None) -> None:
-    id = OpenAIRequest.query.count() + 1
+    try:
+        id = OpenAIRequest.query.count() + 1
+    except:
+        id = 1
     new_request = OpenAIRequest(id=id, request_type=type_, text=text)
 
     if type_ == 'text_classification':
