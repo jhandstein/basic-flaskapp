@@ -1,10 +1,14 @@
 from flask import Flask, request, jsonify
 from src.call_azure_endpoint import ls_prediction, ls_entity_recognition, ls_question_answering
-from src.database import db, store_request
+from src.mysql_database import db, store_request
+from src import mysql_secrets
+
+con_string = f'mysql://{mysql_secrets.dbuser}:{mysql_secrets.dbpass}@{mysql_secrets.dbhost}/{mysql_secrets.dbname}'
 
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///openai-db.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = con_string
+    app.config['SECRET_KEY'] = 'mysecretkey'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
 
@@ -12,6 +16,7 @@ def create_app():
 
 app = create_app()
 
+# create table before first request (if it doesn't exist)
 @app.before_first_request
 def create_tables():
     db.create_all()

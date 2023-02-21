@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
 class OpenAIRequest(db.Model):
     __tablename__ = 'openai_requests'
     id = db.Column(db.Integer, primary_key=True)
@@ -14,7 +15,7 @@ class OpenAIRequest(db.Model):
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
-        return f'Request {self.id}'
+        return f'Request {self.id}, Type {self.request_type}'
 
 def store_request(type_: str, text: str, category: str=None, entities: str=None, answer: str=None) -> None:
     try:
